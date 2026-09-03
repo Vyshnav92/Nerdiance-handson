@@ -1,0 +1,11 @@
+HandsOn SRE App has been deployed.
+
+Check status:
+  kubectl get pods,svc,ingress -l "app.kubernetes.io/name={{ include "handson-app.name" . }}"
+
+If ingress is enabled, access the app via:
+  http://{{ (index .Values.ingress.hosts 0).host }}/
+
+Otherwise, port-forward:
+  kubectl port-forward svc/{{ include "handson-app.fullname" . }} 8080:{{ .Values.service.port }}
+  Then visit http://localhost:8080

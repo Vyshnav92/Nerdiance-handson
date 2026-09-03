@@ -1,0 +1,57 @@
+serviceAccount:
+  create: false
+  name: ""
+
+autoscaling:
+  enabled: false
+
+replicaCount: 1
+
+image:
+  repository: vyshnv12/handson-app
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  className: traefik
+  hosts:
+    - host: handson.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi
+
+probes:
+  livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+
+config:
+  APP_ENV: "production"
+
+secret:
+  DB_PASSWORD: "changeme"
