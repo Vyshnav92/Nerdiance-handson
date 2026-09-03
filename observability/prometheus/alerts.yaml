@@ -1,0 +1,46 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: handson-app-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: handson-app.rules
+      rules:
+        - alert: HandsonAppHighCPU
+          expr: rate(container_cpu_usage_seconds_total{pod=~"handson-app.*"}[5m]) > 0.2
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High CPU usage on handson-app"
+            description: "Pod {{ $labels.pod }} CPU usage above threshold for 2+ minutes."
+
+        - alert: HandsonAppCrashLoopBackOff
+          expr: kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff", pod=~"handson-app.*"} == 1
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "handson-app pod in CrashLoopBackOff"
+            description: "Pod {{ $labels.pod }} is crash-looping."
+
+        - alert: HandsonAppPodRestarts
+          expr: increase(kube_pod_container_status_restarts_total{pod=~"handson-app.*"}[15m]) > 2
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "handson-app pod restarting frequently"
+            description: "Pod {{ $labels.pod }} restarted more than 2 times in 15 minutes."
+
+        - alert: HandsonAppPodNotReady
+          expr: kube_pod_status_ready{condition="true", pod=~"handson-app.*"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "handson-app pod not ready"
+            description: "Pod {{ $labels.pod }} has not been ready for over 5 minutes."
