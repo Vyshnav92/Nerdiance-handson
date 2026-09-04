@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: handson-app-recording-rules
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: handson-app.recording
+      rules:
+        - record: handson_app:cpu_usage:rate5m
+          expr: rate(container_cpu_usage_seconds_total{pod=~"handson-app.*"}[5m])
+        - record: handson_app:restarts:increase15m
+          expr: increase(kube_pod_container_status_restarts_total{pod=~"handson-app.*"}[15m])
