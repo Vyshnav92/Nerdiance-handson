@@ -1,4 +1,4 @@
-# RCA: High CPU Usage - handson-app
+# RCA & Postmortem: High CPU Usage - handson-app
 
 ## Summary
 A CPU-intensive infinite loop was manually executed inside the handson-app

@@ -1,4 +1,4 @@
-# RCA: Node Failure - Single-Node k3s Cluster
+# RCA & Postmortem: Node Failure - Single-Node k3s Cluster
 
 ## Summary
 The k3s service was intentionally stopped on the sole cluster node to simulate
