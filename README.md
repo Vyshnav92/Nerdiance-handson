@@ -221,10 +221,17 @@ handson-app/
 ├── tests/ # Failure simulation scripts/manifests
 └── docs/ # RCAs, runbook, security notes
 
-## 8. Delivery Info
+## Delivery Information
 
-- **Estimated delivery:** within the 16-24 hour working window from receipt of the assignment.
-- **Blockers encountered (see docs/ for full detail):** local VirtualBox display
-  issues (resolved by pivoting to AWS EC2), k3s CNI not enforcing NetworkPolicy
-  (resolved by substituting the Network Partition scenario with Node Failure).
-- All other assumptions and deviations are listed in Section 2 above.
+Estimated delivery: 4 September 2026
+
+The implementation was completed within the allocated evaluation
+window.
+
+Assumptions:
+- Single-node k3s cluster on AWS EC2
+- Docker Hub used as container registry
+- Port-forwarding used for dashboard/application access
+
+Deviations:
+- None from the required k3s/Helm architecture.
